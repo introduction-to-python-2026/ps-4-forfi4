@@ -1,6 +1,5 @@
 def split_at_first_digit(formula):
-    digit_location = 1  # This variable will track the current index being checked in formula.
-                        # It starts at 1 because the loop iterates formula[1:].
+    digit_location = 1 
 
     # Loop through characters starting from the second one (index 1)
     for char_index_offset, char in enumerate(formula[1:]):
@@ -37,4 +36,4 @@ def split_before_each_uppercases(formula):
     
     # Append the last part of the string after the loop
     split_formula.append(formula[start:])
-    return split_formula
+    return split_formula  # Ensure this line uses a standard space
