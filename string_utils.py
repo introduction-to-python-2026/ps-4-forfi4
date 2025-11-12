@@ -1,50 +1,40 @@
-def split_at_digit(formula):
-    """
-    Splits a string into:
-      - prefix: everything before the first digit
-      - number: the first digit onward as an integer
+def split_at_first_digit(formula):
+    digit_location = 1  # This variable will track the current index being checked in formula.
+                        # It starts at 1 because the loop iterates formula[1:].
 
-    If no digits exist, returns (formula, 1)
-    """
-    prefix = ""
-    number_part = ""
-    found_digit = False
+    # Loop through characters starting from the second one (index 1)
+    for char_index_offset, char in enumerate(formula[1:]):
+        if char.isdigit():
+            # If a digit is found, break. digit_location already holds the correct index.
+            break
+        digit_location += 1 # Increment digit_location for the next character in formula[1:]
 
-    for ch in formula:
-        if not found_digit and ch.isdigit():
-            found_digit = True
-        if found_digit:
-            number_part += ch
-        else:
-            prefix += ch
+    # After the loop, digit_location holds the index of the first digit
+    # OR if no digit was found in formula[1:], it will be len(formula).
 
-    if number_part:
-        return prefix, int(number_part)
+    # Check if digit_location has reached the end of the formula.
+    # This implies no digit was found from index 1 onwards.
+    if digit_location == len(formula):
+        # According to the problem: "If no digit is found, return the original string and 1 as the number."
+        return (formula, 1)
     else:
-        return formula, 1
-
-
-def split_before_each_uppercase(formula):
-    """
-    Splits a string before every uppercase letter, keeping the uppercase letters
-    in the resulting parts.
-
-    Examples:
-    >>> split_before_each_uppercase("NaCl") → ['Na', 'Cl']
-    >>> split_before_each_uppercase("C6H12O6") → ['C6', 'H12', 'O6']
-    """
+        # A digit was found at digit_location.
+        # Split the formula into prefix and numeric part.
+        prefix = formula[:digit_location]
+        numeric_part = int(formula[digit_location:])
+        return (prefix, numeric_part)
+def split_before_each_uppercases(formula):
+    split_formula = []
+    start = 0
+    
     if not formula:
         return []
 
-    parts = []
-    current = formula[0]
-
-    for ch in formula[1:]:
-        if ch.isupper():
-            parts.append(current)
-            current = ch
-        else:
-            current += ch
-
-    parts.append(current)
-    return parts
+    for end in range(1, len(formula)):
+        if formula[end].isupper():
+            split_formula.append(formula[start:end])
+            start = end
+    
+    # Append the last part of the string after the loop
+    split_formula.append(formula[start:])
+    return split_formula
