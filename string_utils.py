@@ -3,7 +3,8 @@ def split_at_digit(formula: str):
     number_str = ""
     
     first_digit_index = -1
-    for i, char in enumerate(formula):
+    for i in range(len(formula)):
+        char = formula[i]
         if char.isdigit():
             first_digit_index = i
             break
